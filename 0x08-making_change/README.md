@@ -1,5 +1,3 @@
-# Apecialisation : backend
-
 # alx_interview : Making Change
 
 # Concepts Needed:

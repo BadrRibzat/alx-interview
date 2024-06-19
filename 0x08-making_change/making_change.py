@@ -36,3 +36,4 @@ def makeChange(coins, total):
     if dynamic[total] == float('inf'):
         return -1
     return dynamic[total]
+
