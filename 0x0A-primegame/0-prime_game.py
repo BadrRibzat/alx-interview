@@ -1,55 +1,54 @@
 def isWinner(x, nums):
-    def sieve(n):
-        """ Return a list of primes up to n """
-        is_prime = [True] * (n + 1)
-        p = 2
-        while (p * p <= n):
-            if (is_prime[p] == True):
-                for i in range(p * p, n + 1, p):
-                    is_prime[i] = False
-            p += 1
-        primes = []
-        for p in range(2, n + 1):
-            if is_prime[p]:
-                primes.append(p)
-        return primes
-    
-    def prime_game(n):
-        """ Return the winner of the game for a given n """
-        primes = sieve(n)
-        if not primes:
-            return "Ben"
-        
-        turns = 0
-        remaining = [True] * (n + 1)
-        
-        for prime in primes:
-            if remaining[prime]:
-                turns += 1
-                for multiple in range(prime, n + 1, prime):
-                    remaining[multiple] = False
-        
-        return "Maria" if turns % 2 != 0 else "Ben"
+    """Function that determine who has won the most rounds of the prime game."""
+    mariaWinsCount = 0
+    benWinsCount = 0
 
-    if x <= 0 or not nums:
-        return None
+    for num in nums:
+        roundsSet = list(range(1, num + 1))
+        primesSet = primes_in_range(1, num)
 
-    maria_wins = 0
-    ben_wins = 0
+        if not primesSet:
+            benWinsCount += 1
+            continue
 
-    for n in nums:
-        winner = prime_game(n)
-        if winner == "Maria":
-            maria_wins += 1
-        else:
-            ben_wins += 1
+        isMariaTurn = True
 
-    if maria_wins > ben_wins:
+        while True:
+            if not primesSet:
+                if isMariaTurn:
+                    benWinsCount += 1
+                else:
+                    mariaWinsCount += 1
+                break
+
+            smallestPrime = primesSet.pop(0)
+            roundsSet.remove(smallestPrime)
+            roundsSet = [x for x in roundsSet if x % smallestPrime != 0]
+            primesSet = [p for p in primesSet if p in roundsSet]
+
+            isMariaTurn = not isMariaTurn
+
+    if mariaWinsCount > benWinsCount:
         return "Maria"
-    elif ben_wins > maria_wins:
+    if benWinsCount > mariaWinsCount:
         return "Ben"
-    else:
-        return None
+    return None
+
+
+def is_prime(n):
+    """Returning True if n is prime, else False."""
+    if n < 2:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+
+def primes_in_range(start, end):
+    """Returning a list of prime numbers between start and end 'inclusive'."""
+    return [n for n in range(start, end + 1) if is_prime(n)]
+
 
 if __name__ == "__main__":
     print("Winner: {}".format(isWinner(5, [2, 5, 1, 4, 3])))
