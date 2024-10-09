@@ -56,13 +56,13 @@ def is_edge(grid, row, column):
     """
     edge_count = 0
     if row == 0 or grid[row - 1][column] == 0:
-        edge_count += 1  # Check the upper edge
+        edge_count += 1
     if row == len(grid) - 1 or grid[row + 1][column] == 0:
-        edge_count += 1  # Check the lower edge
+        edge_count += 1
     if column == 0 or grid[row][column - 1] == 0:
-        edge_count += 1  # Check the left edge
+        edge_count += 1
     if column == len(grid[row]) - 1 or grid[row][column + 1] == 0:
-        edge_count += 1  # Check the right edge
+        edge_count += 1
     return edge_count
 
 # Test the function with the provided grid
@@ -74,5 +74,5 @@ if __name__ == "__main__":
         [0, 1, 1, 1, 0, 0],
         [0, 0, 0, 0, 0, 0]
     ]
-    print(island_perimeter(grid))  # Expected output: 12
+    print(island_perimeter(grid))
 
